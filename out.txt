@@ -1,0 +1,38 @@
+>>>>>>>>>Query0>>>>>>>>>>
+1800 users with month of birth information
+167 users in month of 7(most)
+[Ashley MILLER(3), Zehir ANDERSON(16), Ashley JONES(21), Velaria MARTIN(58), Meriadoc THOMAS(67), Legolas MILLER(82), Freyda WILSON(91), Ylaya HARRIS(107), Hangvul THOMPSON(113), Ella WILSON(119), Lily BROWN(120), Meriadoc MOORE(138), Ornella SMITH(147), Galadriel WILLIAMS(158), Grace ANDERSON(166), Agrael JACKSON(175), Biara MARTIN(178), Gotai JACKSON(199), Raelag THOMAS(226), Arwen GARCIA(228), Galadriel MARTIN(229), Galadriel BROWN(238), Eowyn DAVIS(239), Grace TAYLOR(242), Biara GARCIA(246), Ella GARCIA(248), Shadya DAVIS(251), Faramir MARTIN(254), Isabel JACKSON(282), Lily HARRIS(286), Arwen BROWN(311), Sarah JOHNSON(317), Grace WILLIAMS(322), Freyda MARTINEZ(333), Faramir MARTINEZ(346), Ylthin WHITE(354), Gotai HARRIS(365), Cyrus BROWN(374), Zehir SMITH(387), Zehir ANDERSON(397), Shadya WILLIAMS(403), Ella JACKSON(405), Saruman THOMPSON(424), Zehir TAYLOR(460), Eowyn MARTINEZ(474), Ornella THOMAS(476), Arwen MARTIN(478), Ylthin WILLIAMS(516), Gandalf HARRIS(522), Biara MARTIN(529), Theoden TAYLOR(530), Isabel MOORE(531), Ylthin MILLER(544), Boromir THOMAS(567), Gimli SMITH(576), Wulfstan BROWN(584), Raelag MILLER(590), Freyda JOHNSON(626), Legolas MARTINEZ(630), Eowyn DAVIS(638), Eowyn GARCIA(648), Elrond BROWN(684), Legolas WILLIAMS(704), Galadriel JACKSON(712), Agrael JACKSON(713), Hangvul BROWN(729), Boromir DAVIS(740), Ashley THOMAS(750), Ashley ANDERSON(759), Sarah WILSON(767), Freyda GARCIA(775), Boromir MARTINEZ(777), Sauron DAVIS(793), Arwen WILSON(800), Gimli MILLER(802), Cyrus TAYLOR(803), Shadya TAYLOR(840), Wulfstan JACKSON(877), Elrond HARRIS(888), Agrael HARRIS(894), Ornella THOMAS(935), Theoden GARCIA(937), Pippin THOMAS(942), Legolas THOMAS(943), Velaria HARRIS(963), Elrond JACKSON(966), Faramir HARRIS(976), Lily HARRIS(985), Shadya MARTINEZ(1005), Faramir GARCIA(1032), Shadya TAYLOR(1033), Frodo DAVIS(1039), Frodo JACKSON(1065), Velaria JONES(1083), Cyrus JACKSON(1112), Raelag JONES(1120), Velaria JONES(1132), Hangvul WHITE(1147), Kujin DAVIS(1165), Ashley WILLIAMS(1170), Boromir THOMAS(1182), Freyda TAYLOR(1190), Freyda JOHNSON(1199), Galadriel JOHNSON(1209), Ylaya MOORE(1213), Freyda GARCIA(1221), Hangvul TAYLOR(1226), Kujin WILLIAMS(1243), Hangvul BROWN(1248), Grace GARCIA(1261), Faramir BROWN(1281), Faramir WHITE(1284), Wulfstan ANDERSON(1286), Elrond THOMAS(1302), Wulfstan WILLIAMS(1307), Kujin MOORE(1314), Ella WILSON(1364), Galadriel WILLIAMS(1393), Grace BROWN(1394), Eowyn JONES(1396), Ashley BROWN(1397), Boromir THOMPSON(1419), Pippin MILLER(1428), Aragorn MARTINEZ(1441), Grace DAVIS(1454), Brianna HARRIS(1458), Zehir HARRIS(1482), Freyda MARTINEZ(1483), Denethor TAYLOR(1513), Sarah THOMAS(1518), Ella ANDERSON(1536), Denethor DAVIS(1543), Brianna MILLER(1544), Pippin THOMPSON(1556), Frodo WILSON(1566), Freyda TAYLOR(1572), Shadya BROWN(1578), Ella WILLIAMS(1579), Sauron MARTIN(1589), Sarah WILSON(1590), Lily JOHNSON(1592), Saruman THOMAS(1593), Kujin WHITE(1597), Sarah GARCIA(1604), Kujin SMITH(1630), Eowyn JONES(1632), Velaria BROWN(1638), Ella THOMAS(1639), Shadya SMITH(1652), Arantir THOMAS(1654), Gimli BROWN(1671), Legolas HARRIS(1674), Lily THOMAS(1680), Lily ANDERSON(1683), Agrael THOMPSON(1686), Velaria ANDERSON(1691), Aragorn HARRIS(1692), Frodo ANDERSON(1700), Sauron JONES(1716), Agrael TAYLOR(1723), Cyrus JOHNSON(1736), Boromir JOHNSON(1737), Ylaya MILLER(1742), Ylthin MARTIN(1750), Grace GARCIA(1759), Lily TAYLOR(1778), Saruman GARCIA(1779)]
+124 users in month of 4(least)
+[Arwen JONES(2), Meriadoc JOHNSON(13), Ella HARRIS(37), Grace THOMAS(47), Arwen SMITH(49), Ashley MARTIN(57), Ylthin WILLIAMS(65), Zehir MOORE(121), Grace GARCIA(124), Ylaya JONES(164), Aragorn GARCIA(170), Saruman MARTINEZ(183), Wulfstan MOORE(250), Brianna GARCIA(269), Pippin THOMAS(270), Pippin WILSON(274), Lily MARTINEZ(280), Lily MILLER(289), Ella MARTIN(299), Agrael MOORE(300), Denethor GARCIA(305), Legolas WHITE(342), Hangvul ANDERSON(357), Kujin DAVIS(366), Ylaya MARTIN(373), Meriadoc GARCIA(375), Isabel JOHNSON(395), Ornella MOORE(398), Ashley MARTIN(418), Elrond THOMAS(426), Gandalf MILLER(429), Eowyn JONES(449), Faramir ANDERSON(459), Biara WILLIAMS(465), Ashley MARTIN(477), Lily GARCIA(504), Saruman SMITH(542), Arantir WHITE(548), Sauron BROWN(563), Ashley GARCIA(634), Grace WHITE(644), Frodo THOMAS(675), Biara HARRIS(683), Frodo DAVIS(690), Zehir MOORE(725), Freyda MOORE(736), Faramir DAVIS(747), Lily WILSON(761), Brianna DAVIS(770), Galadriel WILSON(780), Grace JOHNSON(796), Ylaya THOMPSON(810), Gandalf MARTINEZ(820), Agrael MOORE(823), Cyrus GARCIA(871), Saruman WILLIAMS(876), Shadya GARCIA(899), Sarah JONES(905), Isabel MOORE(932), Faramir HARRIS(947), Eowyn SMITH(954), Isabel GARCIA(982), Sauron MILLER(989), Isabel TAYLOR(1003), Denethor HARRIS(1009), Velaria GARCIA(1012), Eowyn TAYLOR(1025), Arantir WILLIAMS(1035), Ashley BROWN(1036), Theoden MOORE(1053), Wulfstan GARCIA(1054), Saruman MILLER(1088), Zehir MARTINEZ(1096), Brianna DAVIS(1100), Hangvul BROWN(1104), Shadya MILLER(1129), Wulfstan ANDERSON(1137), Sarah THOMAS(1140), Kujin GARCIA(1141), Wulfstan HARRIS(1152), Lily HARRIS(1162), Grace JACKSON(1167), Biara JONES(1183), Gotai WILSON(1184), Gandalf JONES(1196), Pippin ANDERSON(1220), Sauron JONES(1233), Pippin MARTIN(1236), Grace MOORE(1242), Kujin GARCIA(1255), Sauron WILSON(1268), Freyda JONES(1305), Legolas MILLER(1318), Galadriel MOORE(1323), Lily HARRIS(1332), Ylaya MILLER(1346), Shadya MARTINEZ(1365), Pippin DAVIS(1389), Freyda GARCIA(1415), Eowyn WILSON(1434), Isabel GARCIA(1459), Gandalf ANDERSON(1469), Zehir GARCIA(1492), Agrael THOMPSON(1520), Hangvul SMITH(1545), Gandalf SMITH(1551), Kujin WILLIAMS(1588), Ornella TAYLOR(1648), Sauron MARTINEZ(1656), Arwen WILSON(1663), Ornella JONES(1673), Faramir JONES(1678), Brianna THOMAS(1679), Grace JACKSON(1684), Saruman ANDERSON(1693), Gimli WILSON(1702), Agrael SMITH(1703), Ylaya MARTINEZ(1715), Hangvul HARRIS(1730), Theoden WILLIAMS(1734), Legolas WILLIAMS(1748), Ylthin JONES(1766), Ylthin ANDERSON(1775), Isabel MARTIN(1777)]
+>>>>>>>>>Query1>>>>>>>>>>
+Longest first names are [JohnJacobJingleheimerSchmidt]
+Shortest first names are [Al, Bo, Jo]
+Most common first names are [Jane, John] - having 10 users for each
+>>>>>>>>>Query2>>>>>>>>>>
+Number of lonely users: 2
+Lonely users are [Billy SmellsFunny(10), Jenny BadBreath(11)]
+>>>>>>>>>Query3>>>>>>>>>>
+Number of users who live away from home: 1
+These users still live away from home [Heather Movalot(11)]
+>>>>>>>>>Query4>>>>>>>>>>
+The following are top 1 photos with the most tags
+(ID 1234567) from album album1 url(http://google.com)
+1 Tags
+[taggedUserFirstName1 taggedUserLastName1(12345)]
+>>>>>>>>>Query5>>>>>>>>>>
+Top 1 matches
+u1FirstName u1LastName(123) born in 1988, u2FirstName u2LastName(456) born in 1986
+They are not Fakebook friends and share 1 photos
+[(ID 12345678) from album albumName url(link)]
+>>>>>>>>>Query6>>>>>>>>>>
+User1FirstName User1LastName(123) User2FirstName User2LastName(456) are not Fakebook friends and they share 3 friends
+[sharedFriend1FirstName sharedFriend1LastName(567), sharedFriend2FirstName sharedFriend2LastName(678), sharedFriend3FirstName sharedFriend3LastName(789)]
+>>>>>>>>>Query7>>>>>>>>>>
+State/States with most events: [California, Michigan]
+Total events in each state: 12
+>>>>>>>>>Query8>>>>>>>>>>
+Oldest friend: Oliver Oldham(1)
+Youngest friend: Yolanda Young(25)
+>>>>>>>>>Query9>>>>>>>>>>
+1 pairs of siblings
+User1FirstName User1LastName(123) and User2FirstName User2LastName(456)
