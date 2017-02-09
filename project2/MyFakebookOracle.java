@@ -156,28 +156,30 @@ public class MyFakebookOracle extends FakebookOracle {
     // (I.e., current_city != hometown_city)
     //
     public void liveAwayFromHome() throws SQLException {
-
-    try (Statement stmt =
-                oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY)) {
-
-            ResultSet rst = stmt.executeQuery("select u.user_id, u.first_name, u.last_name from " +
-                    userTableName +" u, " + hometownCityTableName + " h, " + currentCityTableName + " c " +
-                    "where u.user_id = c.user_id and h.user_id = u.user_id and (h.hometown_city_id <> c.current_city_id) order by u.user_id "); //get a query to sort through
-
-
-            this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
+        try(Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+             ResultSet.CONCUR_READ_ONLY)) {
             
-            while (rst.next()){
-                long foo = Integer.parseInt(rst.getString(1));
-                this.liveAwayFromHome.add(new UserInfo(foo, rst.getString(2), rst.getString(3)));
+            ResultSet rst = stmt.executeQuery("SELECT DISTINCT USER_ID, FIRST_NAME, LAST_NAME FROM " + userTableName + 
+                                              " WHERE USER_ID IN (SELECT DISTINCT USER_ID FROM " + currentCityTableName+
+                                              " C NATURAL JOIN " + hometownCityTableName + " H "+
+                                              "WHERE C.CURRENT_CITY_ID<> H.HOMETOWN_CITY_ID) ORDER BY 1"); 
+            while(rst.next()){
+                Long uid = rst.getLong(1);
+                String firstname = rst.getString(2);
+                String lastname = rst.getString(3);
+                
+                this.liveAwayFromHome.add(new UserInfo(uid, firstname, lastname));
+            
             }
-
-        rst.close();
-        stmt.close();
-        }catch(SQLException err){
+            
+            
+            rst.close();
+            stmt.close();   
+            
+        }catch (SQLException err) {
             System.err.println(err.getMessage());
         }
+    }
 
 
     @Override
