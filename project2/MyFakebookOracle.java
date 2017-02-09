@@ -160,10 +160,10 @@ public class MyFakebookOracle extends FakebookOracle {
                 oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)) {
 
-            ResultSet rst = stmt.executeQuery("select u.user_id, u.first_name, u.last_name from " +
-                    userTableName +" u, " + hometownCityTableName + " h, " + currentCityTableName + " c " +
-                    "where u.user_id = c.user_id and h.user_id = u.user_id and h.hometown_city_id <> c.current_city_id
-                    order by u.user_id "); 
+            ResultSet rst = stmt.executeQuery("select U.user_id, U.first_name, U.last_name from " +
+                    userTableName +" U, " + hometownCityTableName + " H, " + currentCityTableName + " C " +
+                    "where U.user_id = C.user_id and H.user_id = U.user_id and (H.hometown_city_id <> C.current_city_id)
+                    order by U.user_id "); 
 
 
             this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
