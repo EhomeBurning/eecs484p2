@@ -167,13 +167,14 @@ public class MyFakebookOracle extends FakebookOracle {
 
             this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
 
-            while (rst.next()) {
+            while(rst.next()){
                 Long uid = rst.getLong(1);
                 String firstname = rst.getString(2);
                 String lastname = rst.getString(3);
-                this.usersInMonthOfLeast.add(new UserInfo(uid, firstName, lastName));
+                
+                this.liveAwayFromHome.add(new UserInfo(uid, firstname, lastname));
+            
             }
-
             
             //while (rst.next()){
               //  long foo = Integer.parseInt(rst.getString(1));
