@@ -281,20 +281,6 @@ public class MyFakebookOracle extends FakebookOracle {
                                                E where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc");
             //ResultSet rst = stmt.executeQuery("SELECT count(*), c.STATE_NAME FROM " + cityTableName + " c, " + eventTableName + " e where (e.EVENT_CITY_ID = c.CITY_ID) group by c.STATE_NAME order by 1 desc ");
 
-'''
-            while(rst.next()){
-                String state = rst.getString(1);
-                int Count = rst.getInt(2);
-                if (rst.isFirst()){
-                    this.eventCount = rst.getInt(2);
-                    this.popularStateNames.add(rst.getString(1));
-                }
-                if (rst.getInt(2) == this.eventCount){
-                    this.popularStateNames.add(state);
-                }
-            
-            }
-'''
             while(rst.next()){
                 if(rst.isFirst()){
                     this.eventCount = rst.getInt(1);
