@@ -287,10 +287,9 @@ public class MyFakebookOracle extends FakebookOracle {
                     this.eventCount = Count;
                     this.popularStateNames.add(state);
                 }
-                if (rst.getInt(2) == this.eventCount){
-                    this.popularStateNames.add(state);
-                }
-                
+                //if (rst.getInt(2) == this.eventCount){
+                //    this.popularStateNames.add(state);
+                //}
             
             }
             
