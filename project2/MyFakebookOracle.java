@@ -282,7 +282,7 @@ public class MyFakebookOracle extends FakebookOracle {
 
             while(rst.next()){
                 Sring state = rst.getString(1);
-                Long Count = rst.getLong(2);
+                int Count = rst.getInt(2);
                 if (rst.isFirst()){
                     this.eventCount = Count;
                     this.popularStateNames.add(state);
