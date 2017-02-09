@@ -162,7 +162,7 @@ public class MyFakebookOracle extends FakebookOracle {
 
             ResultSet rst = stmt.executeQuery("select U.user_id, U.first_name, U.last_name from " +
                     userTableName +" U, " + hometownCityTableName + " H, " + currentCityTableName + " C " +
-                    "where U.user_id = C.user_id and H.user_id = U.user_id and H.hometown_city_id <> C.current_city_id "); 
+                    "where U.user_id = C.user_id and H.user_id = U.user_id and H.hometown_city_id <> C.current_city_id and H.hometown_city_id is not null "); 
 
 
             this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
