@@ -281,7 +281,7 @@ public class MyFakebookOracle extends FakebookOracle {
                                               "where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc");
 
             while(rst.next()){
-                Sring state = rst.getString(1);
+                String state = rst.getString(1);
                 int Count = rst.getInt(2);
                 if (rst.isFirst()){
                     this.eventCount = Count;
