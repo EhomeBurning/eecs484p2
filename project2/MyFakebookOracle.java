@@ -277,8 +277,8 @@ public class MyFakebookOracle extends FakebookOracle {
                 oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)) {
 
-            ResultSet rst = stmt.executeQuery("select count (*), C.state_name from " + cityTableName +" C, " + eventTableName + " 
-                                               E where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc");
+            ResultSet rst = stmt.executeQuery("select count (*), C.state_name from " + cityTableName +" C, " + eventTableName + " E " + 
+                "where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc");
             //ResultSet rst = stmt.executeQuery("SELECT count(*), c.STATE_NAME FROM " + cityTableName + " c, " + eventTableName + " e where (e.EVENT_CITY_ID = c.CITY_ID) group by c.STATE_NAME order by 1 desc ");
 
             while(rst.next()){
