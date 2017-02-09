@@ -164,15 +164,8 @@ public class MyFakebookOracle extends FakebookOracle {
                                                 usertablername + "u" + currentCityTableName + "c" hometownCityTableName + "h"
                                                 "where u.user_id = c.user_id and u.user_id = h.user_id and 
                                                 c.current_city <> h.hometown_city and h.hometown_city is not null" +
-                                                "order by user_id")
+                                                "order by user_id");
 
-
-            '''
-            ResultSet rst = stmt.executeQuery("SELECT DISTINCT USER_ID, FIRST_NAME, LAST_NAME FROM " + userTableName + 
-                                              " WHERE USER_ID IN (SELECT DISTINCT USER_ID FROM " + currentCityTableName+
-                                              " C NATURAL JOIN " + hometownCityTableName + " H "+
-                                              "WHERE C.CURRENT_CITY_ID<> H.HOMETOWN_CITY_ID) ORDER BY 1"); 
-            '''
             while(rst.next()){
                 Long uid = rst.getLong(1);
                 String firstname = rst.getString(2);
