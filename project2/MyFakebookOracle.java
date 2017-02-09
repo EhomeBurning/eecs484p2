@@ -161,10 +161,9 @@ public class MyFakebookOracle extends FakebookOracle {
             ResultSet.CONCUR_READ_ONLY)) {
             
             ResultSet rst = stmt.executeQuery("select u.user_id, u.first_name, u.last_name from" + 
-                                                usertablername + "u" + currentCityTableName + "c" + hometownCityTableName + "h" + 
+                                                userTablername + "u" + currentCityTableName + "c" + hometownCityTableName + "h" + 
                                                 "where u.user_id = c.user_id and u.user_id = h.user_id and 
-                                                c.current_city <> h.hometown_city and h.hometown_city is not null" +
-                                                "order by user_id");
+                                                (h.hometown_city_id <> c.current_city_id) order by u.user_id");
 
             while(rst.next()){
                 Long uid = rst.getLong(1);
