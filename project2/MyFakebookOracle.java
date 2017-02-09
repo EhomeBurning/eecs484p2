@@ -175,11 +175,6 @@ public class MyFakebookOracle extends FakebookOracle {
                 this.liveAwayFromHome.add(new UserInfo(uid, firstname, lastname));
             
             }
-            
-            //while (rst.next()){
-              //  long foo = Integer.parseInt(rst.getString(1));
-                //this.liveAwayFromHome.add(new UserInfo(foo, rst.getString(2), rst.getString(3)));
-            //}
 
         rst.close();
         stmt.close();
@@ -278,9 +273,39 @@ public class MyFakebookOracle extends FakebookOracle {
     // events in that state.  If there is a tie, return the names of all of the (tied) states.
     //
     public void findEventStates() {
-        this.eventCount = 12;
-        this.popularStateNames.add("Michigan");
-        this.popularStateNames.add("California");
+        try (Statement stmt =
+                oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY)) {
+
+            ResultSet rst = stmt.executeQuery("select count (*), C.state_name from " + cityTableName +" C, " + eventTableName + " E " + 
+                                              "where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc")
+
+
+            this.popularStateNames = 0;
+            while(rst.next()){
+                Sring state = rst.getString(1);
+                Int Count = rst.getInt(2);
+                if (rst.isFirst()){
+                    this.eventCount = Count;
+                    this.popularStateNames.add(state);
+                }
+                if (rst.getInt(2) == this.eventCount){
+                    this.popularStateNames.add(state);
+                }
+                
+            
+            }
+            
+            //this.eventCount = 12;
+            //this.popularStateNames.add("Michigan");
+            //this.popularStateNames.add("California");
+
+        rst.close();
+        stmt.close();
+        }catch(SQLException err){
+            System.err.println(err.getMessage());
+        }
+        
     }
 
     //@Override
