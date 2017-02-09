@@ -157,33 +157,28 @@ public class MyFakebookOracle extends FakebookOracle {
     //
     public void liveAwayFromHome() throws SQLException {
 
-    try (Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-            ResultSet.CONCUR_READ_ONLY)) {
-            
-            ResultSet rst = stmt.executeQuery("select u.user_id, u.first_name, u.last_name from" + 
-                                                userTablername + "u" + currentCityTableName + "c" + hometownCityTableName + "h" + 
-                                                "where u.user_id = c.user_id and u.user_id = h.user_id and 
-                                                (h.hometown_city_id != c.current_city_id) order by u.user_id");
+    try (Statement stmt =
+                oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY)) {
 
-            while(rst.next()){
-                Long uid = rst.getLong(1);
-                String firstname = rst.getString(2);
-                String lastname = rst.getString(3);
-                
-                this.liveAwayFromHome.add(new UserInfo(uid, firstname, lastname));
+            ResultSet rst = stmt.executeQuery("select u.user_id, u.first_name, u.last_name from " +
+                    userTableName +" u, " + hometownCityTableName + " h, " + currentCityTableName + " c " +
+                    "where u.user_id = c.user_id and h.user_id = u.user_id and (h.hometown_city_id <> c.current_city_id) order by u.user_id "); //get a query to sort through
+
+
+            this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
             
+            while (rst.next()){
+                long foo = Integer.parseInt(rst.getString(1));
+                this.liveAwayFromHome.add(new UserInfo(foo, rst.getString(2), rst.getString(3)));
             }
-            
-            
-            rst.close();
-            stmt.close();   
-            
-        }catch (SQLException err) {
+
+        rst.close();
+        stmt.close();
+        }catch(SQLException err){
             System.err.println(err.getMessage());
         }
 
-        //this.liveAwayFromHome.add(new UserInfo(11L, "Heather", "Movalot"));
-    }
 
     @Override
     // **** Query 4 ****
