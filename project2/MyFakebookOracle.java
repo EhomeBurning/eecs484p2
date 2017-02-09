@@ -284,8 +284,8 @@ public class MyFakebookOracle extends FakebookOracle {
                 String state = rst.getString(1);
                 int Count = rst.getInt(2);
                 if (rst.isFirst()){
-                    this.eventCount = Count;
-                    this.popularStateNames.add(state);
+                    this.eventCount = rst.getInt(2);
+                    this.popularStateNames.add(rst.getString(1));
                 }
                 //if (rst.getInt(2) == this.eventCount){
                 //    this.popularStateNames.add(state);
