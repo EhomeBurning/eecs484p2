@@ -356,7 +356,7 @@ public class MyFakebookOracle extends FakebookOracle {
                 String user2LastName = rst.getString(6);
                 SiblingInfo s = new SiblingInfo(user1_id, user1FirstName, user1LastName, user2_id, user2FirstName, user2LastName);
                 this.siblings.add(s);
-            };
+            }
 
 
 
