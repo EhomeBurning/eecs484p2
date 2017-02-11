@@ -362,9 +362,10 @@ public class MyFakebookOracle extends FakebookOracle {
 
         rst.close();
         stmt.close();
-        }catch(SQLException err){
+        catch(SQLException err){
             System.err.println(err.getMessage());
         }
+    }
 
         
 }
