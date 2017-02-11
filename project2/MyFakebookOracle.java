@@ -217,6 +217,10 @@ public class MyFakebookOracle extends FakebookOracle {
     // (iii) If there are still ties, choose the pair with the smaller user2_id
     //
     public void matchMaker(int n, int yearDiff) {
+
+
+
+
         Long u1UserId = 123L;
         String u1FirstName = "u1FirstName";
         String u1LastName = "u1LastName";
@@ -279,8 +283,7 @@ public class MyFakebookOracle extends FakebookOracle {
 
             ResultSet rst = stmt.executeQuery("select count (*), C.state_name from " + cityTableName +" C, " + eventTableName + " E " + 
                 "where (C.city_id = E.event_city_id) group by C.state_name order by 1 desc");
-            //ResultSet rst = stmt.executeQuery("SELECT count(*), c.STATE_NAME FROM " + cityTableName + " c, " + eventTableName + " e where (e.EVENT_CITY_ID = c.CITY_ID) group by c.STATE_NAME order by 1 desc ");
-
+            
             while(rst.next()){
                 if(rst.isFirst()){
                     this.eventCount = rst.getInt(1);
@@ -325,15 +328,44 @@ public class MyFakebookOracle extends FakebookOracle {
     // on the line.  They are ordered based on the first user_id and in the event of a tie, the second user_id.
     //
     //
+    
     public void findPotentialSiblings() {
-        Long user1_id = 123L;
-        String user1FirstName = "User1FirstName";
-        String user1LastName = "User1LastName";
-        Long user2_id = 456L;
-        String user2FirstName = "User2FirstName";
-        String user2LastName = "User2LastName";
-        SiblingInfo s = new SiblingInfo(user1_id, user1FirstName, user1LastName, user2_id, user2FirstName, user2LastName);
-        this.siblings.add(s);
-    }
+        
 
-}
+        try(Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+
+
+            ResultSet rst = stmt.executeQuery("SELECT U1.USER_ID, U2.USER_ID, U1.FIRST_NAME, U2.FIRST_NAME, U1.LAST_NAME, U2.LAST_NAME FROM " + 
+                userTableName + " U1, " + userTableName + " U2, " + hometownCityTableName + " H1, " + hometownCityTableName + " H2, " + friendsTableName + " f "
+                +"WHERE (U1.LAST_NAME = U2.LAST_NAME) "
+                +"AND (U1.USER_ID = H1.USER_ID) "
+                +"AND (U2.USER_ID = H2.USER_ID) "
+                +"AND (H1.HOMETOWN_CITY_ID = H2.HOMETOWN_CITY_ID) "
+                +"AND (((U1.USER_ID = f.USER1_ID) AND (U2.USER_ID = f.USER2_ID)) OR ((U1.USER_ID = f.USER2_ID) AND (U2.USER_ID = f.USER1_ID))) "
+                +"AND (ABS(U2.YEAR_OF_BIRTH - U1.YEAR_OF_BIRTH) < 10) "
+                +"AND (U1.USER_ID < U2.USER_ID) "
+                +"ORDER BY U1.USER_ID, U2.USER_ID ASC");
+
+            while(rst.next()){
+                Long user1_id = rst.getLong(1);
+                Long user2_id = rst.getLong(2);
+                String user1FirstName = rst.getString(3);
+                String user2FirstName = rst.getString(4);
+                String user1LastName = rst.getString(5);
+                String user2LastName = rst.getString(6);
+                SiblingInfo s = new SiblingInfo(user1_id, user1FirstName, user1LastName, user2_id, user2FirstName, user2LastName);
+                this.siblings.add(s);
+            }
+
+
+
+        rst.close();
+        stmt.close();
+        }catch(SQLException err){
+            System.err.println(err.getMessage());
+        }
+
+        
+    }
+    
