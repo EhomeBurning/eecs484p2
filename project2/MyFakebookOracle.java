@@ -218,27 +218,84 @@ public class MyFakebookOracle extends FakebookOracle {
     //
     public void matchMaker(int n, int yearDiff) {
 
+         try (Statement stmt =
+                     oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                             ResultSet.CONCUR_READ_ONLY)) {
+            //get the matches ordered by most shared pictures
+            String temp =  "select t1.tag_subject_id as tag1, t2.tag_subject_id as tag2, count(*) from " 
+            + tagTableName + " t1, " + tagTableName + " t2, " + userTableName + " u1, " + userTableName + " u2 "
+            + "where t1.tag_photo_id = t2.tag_photo_id and not exists " 
+                + "(select 1 from " + friendsTableName + " f "
+                + "where f.user1_id = t1.tag_subject_id and f.user2_id = t2.tag_subject_id)" 
+            + " and not exists "
+            + "(select 1 from " + friendsTableName + " f " + "where f.user1_id = t2.tag_subject_id and f.user2_id = t1.tag_subject_id)"
+            + " and t1.tag_subject_id <> t2.tag_subject_id"
+            + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id"
+            + " and u1.gender = 'Female' and u2.gender = 'Male'"
+            + " group by t1.tag_subject_id, t2.tag_subject_id order by count(*) desc, t1.tag_subject_id, t2.tag_subject_id"; 
 
+            ResultSet rst = stmt.executeQuery(temp);
+            Integer i = 0;
 
+            //keep going until we reach n
+            while (i < n && rst.next()){
+                // System.out.println(rst.getString(3));
+                // System.out.println(rst.getString(2));
+                // System.out.println(rst.getString(1));
+                // System.out.println("hi");
+                //long id1 = Integer.parseInt(rst.getString(1));
+                //long id2 = Integer.parseInt(rst.getString(2));
+                try (Statement stmt1 =
+                             oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                     ResultSet.CONCUR_READ_ONLY)) {
 
-        Long u1UserId = 123L;
-        String u1FirstName = "u1FirstName";
-        String u1LastName = "u1LastName";
-        int u1Year = 1988;
-        Long u2UserId = 456L;
-        String u2FirstName = "u2FirstName";
-        String u2LastName = "u2LastName";
-        int u2Year = 1986;
-        MatchPair mp = new MatchPair(u1UserId, u1FirstName, u1LastName,
-                u1Year, u2UserId, u2FirstName, u2LastName, u2Year);
-        String sharedPhotoId = "12345678";
-        String sharedPhotoAlbumId = "123456789";
-        String sharedPhotoAlbumName = "albumName";
-        String sharedPhotoCaption = "caption";
-        String sharedPhotoLink = "link";
-        mp.addSharedPhoto(new PhotoInfo(sharedPhotoId, sharedPhotoAlbumId,
-                sharedPhotoAlbumName, sharedPhotoCaption, sharedPhotoLink));
-        this.bestMatches.add(mp);
+                    //gets all data, makes sure the ids are of what we found before, age difference
+                    String hello = "select u1.user_id, u1.first_name, u1.last_name, u1.year_of_birth, " 
+                    + "u2.user_id, u2.first_name, u2.last_name, u2.year_of_birth, "
+                    + "t1.tag_photo_id, a.album_id, a.album_name, p.photo_caption, p.photo_link "
+                    + "from " + userTableName + " u1, " + userTableName + " u2, " 
+                    + tagTableName + " t1, " + tagTableName + " t2, " + albumTableName + " a, " + photoTableName + " p "
+                    + " where abs(u1.year_of_birth - u2.year_of_birth) <= " + yearDiff
+                    + " and u1.user_id = " + rst.getLong(1) + " and u2.user_id = " + rst.getLong(2) 
+                    + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id and t1.tag_photo_id = t2.tag_photo_id"
+                    + " and t1.tag_photo_id = p.photo_id and p.album_id = a.album_id ";
+                    //get user info of couple, look at age and get photo and album info
+                    ResultSet info = stmt1.executeQuery(hello);
+
+                    //if there are shared pictures and couple is within yearDiff, add them in
+                    if (info.next()){
+                       // System.out.println("plz");
+                        //System.out.println(info.getString(1));
+                        //System.out.println("mercy");
+                        long gid = Integer.parseInt(info.getString(1));
+                        long bid = Integer.parseInt(info.getString(5));
+                        Integer gy = Integer.parseInt(info.getString(4));
+                        Integer by = Integer.parseInt(info.getString(8));
+                        MatchPair mp = new MatchPair(gid, info.getString(2), info.getString(3),
+                                gy, bid, info.getString(6), info.getString(7), by);
+                        mp.addSharedPhoto(new PhotoInfo(info.getString(9), info.getString(10), info.getString(11), 
+                          info.getString(12), info.getString(13)));
+                        this.bestMatches.add(mp);
+                        while (info.next()){
+                            mp.addSharedPhoto(new PhotoInfo(info.getString(9), info.getString(10), info.getString(11), 
+                            info.getString(12), info.getString(13)));
+                            this.bestMatches.add(mp);
+                        }
+                    }
+                    
+                info.close();
+                stmt1.close();
+                }catch (SQLException err){
+                    System.err.println(err.getMessage());
+                }
+                ++i;
+            }
+
+        rst.close();
+        stmt.close();
+        }catch (SQLException err){
+            System.err.println(err.getMessage());
+        }
     }
 
     // **** Query 6 ****
@@ -339,13 +396,11 @@ public class MyFakebookOracle extends FakebookOracle {
             ResultSet rst = stmt.executeQuery("SELECT U1.USER_ID, U2.USER_ID, U1.FIRST_NAME, U2.FIRST_NAME, U1.LAST_NAME, U2.LAST_NAME FROM " + 
                 userTableName + " U1, " + userTableName + " U2, " + hometownCityTableName + " H1, " + hometownCityTableName + " H2, " + friendsTableName + " f "
                 +"WHERE (U1.LAST_NAME = U2.LAST_NAME) "
-                +"AND (U1.USER_ID = H1.USER_ID) "
-                +"AND (U2.USER_ID = H2.USER_ID) "
+                +"AND (U1.USER_ID = H1.USER_ID) " + "AND (U2.USER_ID = H2.USER_ID) "
                 +"AND (H1.HOMETOWN_CITY_ID = H2.HOMETOWN_CITY_ID) "
                 +"AND (((U1.USER_ID = f.USER1_ID) AND (U2.USER_ID = f.USER2_ID)) OR ((U1.USER_ID = f.USER2_ID) AND (U2.USER_ID = f.USER1_ID))) "
                 +"AND (ABS(U2.YEAR_OF_BIRTH - U1.YEAR_OF_BIRTH) < 10) "
-                +"AND (U1.USER_ID < U2.USER_ID) "
-                +"ORDER BY U1.USER_ID, U2.USER_ID ASC");
+                +"AND (U1.USER_ID < U2.USER_ID) " + "ORDER BY U1.USER_ID, U2.USER_ID ASC");
 
             while(rst.next()){
                 Long user1_id = rst.getLong(1);
