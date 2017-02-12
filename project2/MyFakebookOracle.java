@@ -230,7 +230,7 @@ public class MyFakebookOracle extends FakebookOracle {
             + "(select 1 from " + friendsTableName + " f " + "where f.user1_id = t2.tag_subject_id and f.user2_id = t1.tag_subject_id)"
             + " and t1.tag_subject_id <> t2.tag_subject_id"
             + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id"
-            + " and u1.gender = 'Female' and u2.gender = 'Male'"
+            + " and u1.gender = u2.gender "
             + " group by t1.tag_subject_id, t2.tag_subject_id order by count(*) desc, t1.tag_subject_id, t2.tag_subject_id"; 
 
             ResultSet rst = stmt.executeQuery(temp);
