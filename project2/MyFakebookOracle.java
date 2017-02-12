@@ -216,9 +216,9 @@ public class MyFakebookOracle extends FakebookOracle {
     // (ii) If there are still ties, choose the pair with the smaller user1_id
     // (iii) If there are still ties, choose the pair with the smaller user2_id
     //
-    public void matchMaker(int n, int yearDiff) {
+ public void matchMaker(int n, int yearDiff) {
 
-          try(Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+        try(Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
              ResultSet.CONCUR_READ_ONLY)) {
             
             ResultSet rst = stmt.executeQuery(
