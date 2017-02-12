@@ -221,11 +221,8 @@ public class MyFakebookOracle extends FakebookOracle {
         try(Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
              ResultSet.CONCUR_READ_ONLY)) {
             
-            ResultSet rst = stmt.executeQuery(
-                "select F.USER_ID, F.FIRST_NAME, F.LAST_NAME, F.YEAR_OF_BIRTH, "
-                    "M.USER_ID, M.FIRST_NAME, M.LAST_NAME, M.YEAR_OF_BIRTH, TF.TAG_PHOTO_ID "
-                    "from "+userTableName+" F, "+userTableName+" M, "+
-                        tagTableName+" TF, "+tagTableName+" TM "+
+            ResultSet rst = stmt.executeQuery("select F.USER_ID, F.FIRST_NAME, F.LAST_NAME, F.YEAR_OF_BIRTH, M.USER_ID, M.FIRST_NAME, M.LAST_NAME, M.YEAR_OF_BIRTH, TF.TAG_PHOTO_ID from"+
+                userTableName+" F, "+userTableName+" M, "+tagTableName+" TF, "+tagTableName+" TM "+
                     "where F.GENDER = 'female' and M.GENDER = 'male' "+
                         "and abs(F.YEAR_OF_BIRTH - M.YEAR_OF_BIRTH) <= "+ yearDiff+" "
                         "and F.USER_ID = TF.TAG_SUBJECT_ID and M.USER_ID = TM.TAG_SUBJECT_ID "+
