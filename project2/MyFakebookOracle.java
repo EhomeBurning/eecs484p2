@@ -217,7 +217,7 @@ public class MyFakebookOracle extends FakebookOracle {
     // (iii) If there are still ties, choose the pair with the smaller user2_id
     //
  public void matchMaker(int n, int yearDiff) {
-        try (Statement stmt =
+        try (Statement stmt1 =
                      oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                              ResultSet.CONCUR_READ_ONLY)) {
             //get the matches ordered by most shared pictures
@@ -238,13 +238,13 @@ public class MyFakebookOracle extends FakebookOracle {
 
             //keep going until we reach n
             while (i < n && rst.next()){
-                // System.out.println(rst.getString(3));
-                // System.out.println(rst.getString(2));
-                // System.out.println(rst.getString(1));
-                // System.out.println("hi");
-                //long id1 = Integer.parseInt(rst.getString(1));
-                //long id2 = Integer.parseInt(rst.getString(2));
-                try (Statement stmt1 =
+                 System.out.println(rst.getString(3));
+                 System.out.println(rst.getString(2));
+                 System.out.println(rst.getString(1));
+                 System.out.println("hi");
+                long id1 = Integer.parseInt(rst.getString(1));
+                long id2 = Integer.parseInt(rst.getString(2));
+                try (Statement stmt2 =
                              oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                                      ResultSet.CONCUR_READ_ONLY)) {
 
@@ -259,7 +259,7 @@ public class MyFakebookOracle extends FakebookOracle {
                     + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id and t1.tag_photo_id = t2.tag_photo_id"
                     + " and t1.tag_photo_id = p.photo_id and p.album_id = a.album_id ";
                     //get user info of couple, look at age and get photo and album info
-                    ResultSet info = stmt1.executeQuery(hello);
+                    ResultSet info = stmt2.executeQuery(hello);
 
                     //if there are shared pictures and couple is within yearDiff, add them in
                     if (info.next()){
@@ -283,7 +283,7 @@ public class MyFakebookOracle extends FakebookOracle {
                     }
                     
                 info.close();
-                stmt1.close();
+                stmt2.close();
                 }catch (SQLException err){
                     System.err.println(err.getMessage());
                 }
