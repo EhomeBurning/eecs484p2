@@ -146,10 +146,35 @@ public class MyFakebookOracle extends FakebookOracle {
     // the constraint that user1_id < user2_id
     //
     public void lonelyUsers() {
-        // Find the following information from your database and store the information as shown
-        this.lonelyUsers.add(new UserInfo(10L, "Billy", "SmellsFunny"));
-        this.lonelyUsers.add(new UserInfo(11L, "Jenny", "BadBreath"));
+        try (Statement stmt =
+            oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY)) 
+        {
+            ResultSet rst = stmt.executeQuery("SELECT user_id, first_name, last_name FROM " 
+            + userTableName + " MINUS ( SELECT U.user_id, U.first_name, U.last_name FROM "
+            + friendsTableName + " F, " 
+            + userTableName + " U WHERE F.user1_id = U.user_id UNION SELECT U.user_id, U.first_name, U.last_name FROM "
+            + friendsTableName + " F, " 
+            + userTableName + " U WHERE F.user2_id = U.user_id) ORDER BY user_id ");
+            while (rst.next()) 
+            {
+                Long uid = rst.getLong(1);
+                String firstName = rst.getString(2);
+                String lastName = rst.getString(3);
+                this.usersInMonthOfMost.add(new UserInfo(uid, firstName, lastName));
+
+            }
+
+            rst.close();
+            stmt.close();
+        } 
+
+        catch (SQLException err) 
+        {
+            System.err.println(err.getMessage());
+        }
     }
+        
 
     @Override
     // ***** Query 3 *****
@@ -193,7 +218,7 @@ public class MyFakebookOracle extends FakebookOracle {
     // (iii) If there are still ties, choose the pair with the smaller user2_id
     //
     public void matchMaker(int n, int yearDiff) {
-        
+
         Long u1UserId = 123L;
         String u1FirstName = "u1FirstName";
         String u1LastName = "u1LastName";
