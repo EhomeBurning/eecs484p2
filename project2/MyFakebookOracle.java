@@ -236,17 +236,17 @@ public class MyFakebookOracle extends FakebookOracle {
                     + " and T1.tag_photo_id = P.photo_id and P.album_id = A.album_id and rownum <= " + n 
                     + " order by s.cont DESC ,U1.user_id ASC,  U2.user_id ASC");
                 
-                Long oldid1 = shabi;
-                Long oldid2 = shabi;
-                MatchPair mp = new MatchPair(oldid1, "", "", 0, oldid2, "", "",0);  
+                Long temp1 = 123L;
+                Long temp2 = 123L;
+                MatchPair mp = new MatchPair(temp1, " ", " ", 0, temp2, " ", " ",0);  
 
                 while(rst.next()){
                     long u1UserId = rst.getLong(1);
                     long u2UserId= rst.getLong(5);
-                        if ( u1UserId!=oldid1 || u2UserId!= oldid2){
-                              if(oldid1!=shabi){
+                        if ( u1UserId!=temp1 || u2UserId!= temp2){
+                              if(temp1!=123L){
                                 this.bestMatches.add(mp);
-                            }
+                                }
                             String u1FirstName = rst.getString(2);
                             String u1LastName = rst.getString(3);
                             int u1Year = rst.getInt(4);
@@ -254,7 +254,7 @@ public class MyFakebookOracle extends FakebookOracle {
                             String u2LastName = rst.getString(7);
                             int u2Year = rst.getInt(8);
                             mp = new MatchPair(u1UserId, u1FirstName, u1LastName, u1Year, u2UserId, u2FirstName, u2LastName,u2Year);
-                            oldid1 = u1UserId; oldid2= u2UserId;
+                            temp1 = u1UserId; temp2= u2UserId;
                         }
                     String sharedPhotoId = rst.getString(9);
                     String sharedPhotoAlbumId = rst.getString(10);
