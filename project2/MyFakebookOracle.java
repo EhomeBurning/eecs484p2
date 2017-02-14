@@ -165,7 +165,7 @@ public class MyFakebookOracle extends FakebookOracle {
                     "where U.user_id = C.user_id and H.user_id = U.user_id and H.hometown_city_id <> C.current_city_id and (H.hometown_city_id is not null) order by user_id"); 
 
 
-            this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
+            //this.liveAwayFromHome.add(new UserInfo(10L, "bob", "Mvalot"));
 
             while(rst.next()){
                 Long uid = rst.getLong(1);
