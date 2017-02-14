@@ -193,6 +193,65 @@ public class MyFakebookOracle extends FakebookOracle {
     // (iii) If there are still ties, choose the pair with the smaller user2_id
     //
     public void matchMaker(int n, int yearDiff) {
+        {
+            String q1 = "create view share_photo as select U1.user_id as u1id, U2.user_id as u2id ,count(*) as cont"
+            + " from " + userTableName + " U1, " + userTableName + " U2, " + tagTableName + " T1, " + tagTableName + " T2 "
+            + " where U1.user_id = T1.tag_subject_id and U2.user_id = T2.tag_subject_id and T1.tag_photo_id = T2.tag_photo_id "
+            + " and U1.user_id < U2.user_id and U1.gender = U2.gender "
+            + " and U1.year_of_birth is not null and U2.year_of_birth is not null and abs(U1.year_of_birth - U2.year_of_birth) < = " + yearDiff
+            + " group by U1.user_id,U2.user_id order by cont DESC, u1id ASC, u2id ASC";
+            
+            String q2 = "select U1.user_id, U1.first_name, U1.last_name, U1.year_of_birth, U2.user_id, U2.first_name, U2.last_name, U2.year_of_birth, P.photo_id, P.album_id, A.album_name, P.photo_caption, P.photo_link"
+            + " from " + userTableName + " U1, " + userTableName + " U2, " + " share_photo s, " + photoTableName + " P, " + albumTableName + " A, " + tagTableName + " T1, " + tagTableName + " T2 "
+            + " where (U1.user_id, U2.user_id )in (select s.u1id, s.u2id from share_photo s) "
+            + " and s.u1id = U1.user_id and s.u2id = U2.user_id "
+            + " and U1.user_id = T1.tag_subject_id and U2.user_id = T2.tag_subject_id and T1.tag_photo_id = T2.tag_photo_id "
+            + " and not exists( select F.user1_id ,F.user2_id from " + friendsTableName + " F where U1.user_id = F.user1_id and U2.user_id = F.user2_id) "
+            + " and T1.tag_photo_id = P.photo_id and P.album_id = A.album_id and rownum <= " + n
+            + " order by s.cont DESC ,U1.user_id ASC,  U2.user_id ASC" ;
+            
+            String q3 = "drop view share_photo";
+            
+            try (Statement stmt = oracleConnection.createStatement())
+            {
+                stmt.executeUpdate(q1);
+                ResultSet rst = stmt.executeQuery(q2);
+                
+                Long oldid1 = -1L;
+                Long oldid2 = -1L;
+                MatchPair mp = new MatchPair(oldid1, "", "", 0, oldid2, "", "",0);
+                while(rst.next())
+                {
+                    long u1UserId = rst.getLong(1);
+                    long u2UserId= rst.getLong(5);
+                    if ( u1UserId!=oldid1 || u2UserId!= oldid2)
+                    {
+                        if(oldid1!=-1L)
+                        {this.bestMatches.add(mp);}
+                        String u1FirstName = rst.getString(2);
+                        String u1LastName = rst.getString(3);
+                        int u1Year = rst.getInt(4);
+                        String u2FirstName = rst.getString(6);
+                        String u2LastName = rst.getString(7);
+                        int u2Year = rst.getInt(8);
+                        mp = new MatchPair(u1UserId, u1FirstName, u1LastName, u1Year, u2UserId, u2FirstName, u2LastName,u2Year);
+                        oldid1 = u1UserId; oldid2= u2UserId;
+                    }
+                    String sharedPhotoId = rst.getString(9);
+                    String sharedPhotoAlbumId = rst.getString(10);
+                    String sharedPhotoAlbumName = rst.getString(11);
+                    String sharedPhotoCaption =rst.getString(12);
+                    String sharedPhotoLink = rst.getString(13);
+                    mp.addSharedPhoto(new PhotoInfo(sharedPhotoId, sharedPhotoAlbumId, sharedPhotoAlbumName, sharedPhotoCaption,
+                                                    sharedPhotoLink));			
+                }
+                this.bestMatches.add(mp);
+                stmt.executeUpdate(q3);		
+                rst.close();
+                stmt.close();
+            } catch (SQLException err) {
+                System.err.println(err.getMessage());
+            }
         Long u1UserId = 123L;
         String u1FirstName = "u1FirstName";
         String u1LastName = "u1LastName";
