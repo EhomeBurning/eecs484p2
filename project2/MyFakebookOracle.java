@@ -220,79 +220,75 @@ public class MyFakebookOracle extends FakebookOracle {
         try (Statement stmt =
                      oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                              ResultSet.CONCUR_READ_ONLY)) {
-            //get the matches ordered by most shared pictures
-            String temp =  "select t1.tag_subject_id as tag1, t2.tag_subject_id as tag2, count(*) from " 
-            + tagTableName + " t1, " + tagTableName + " t2, " + userTableName + " u1, " + userTableName + " u2 "
-            + "where t1.tag_photo_id = t2.tag_photo_id and not exists " 
-                + "(select 1 from " + friendsTableName + " f "
-                + "where f.user1_id = t1.tag_subject_id and f.user2_id = t2.tag_subject_id)" 
-            + " and not exists "
-            + "(select 1 from " + friendsTableName + " f " + "where f.user1_id = t2.tag_subject_id and f.user2_id = t1.tag_subject_id)"
-            + " and t1.tag_subject_id <> t2.tag_subject_id"
-            + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id"
-            + " and u1.gender = u2.gender "
-            + " group by t1.tag_subject_id, t2.tag_subject_id order by count(*) desc, t1.tag_subject_id, t2.tag_subject_id"; 
+            try (Statement stmt = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            String female = "female";
+            String male = "male";
+            ResultSet rst = stmt.executeQuery( "select U1.user_id, U2.user_id, count(T1.tag_photo_id) "
+                    + "from " + userTableName + " U1, " + userTableName + " U2, " +  tagTableName + " T1, " + tagTableName + " T2 "
+                    + "where U1.gender = U2.gender and U1.user_id = T1.tag_subject_id and U2.user_id = T2.tag_subject_id "
+//                  + "and T1.tag_photo_id = T2.tag_photo_id "
+                    + "and T1.tag_photo_id = T2.tag_photo_id and abs(U1.year_of_birth - U2.year_of_birth) <= " + yearDiff + " "
+                    + "and NOT EXISTS ("
+                    + "select * from " + friendsTableName + " F where (U1.user_id = F.user1_id and U2.user_id = F.user2_id) or (U1.user_id = F.user2_id and U2.user_id = F.user1_id)) "
+                    + "group by U1.user_id, U2.user_id "
+                    + "order by count(T1.tag_photo_id) desc, U1.user_id asc, U2.user_id asc");
+            
 
-            ResultSet rst = stmt.executeQuery(temp);
-            Integer i = 0;
+            int j = 0;
+            while(rst.next()) {
+                if (j == n) break;
+                j++;
+//              System.out.println(rst.getLong(1) + "  " + rst.getLong(2) + "  " + rst.getInt(3));
+                Long girlUserId = rst.getLong(1);
+                Long boyUserId = rst.getLong(2);
+                try (Statement stmtTemp = oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY)) {
+                    ResultSet rstTemp = stmtTemp.executeQuery("select U1.first_name, U1.last_name, U1.year_of_birth, U2.first_name, U2.Last_name, U2.year_of_birth "
+                            + "from " + userTableName + " U1, " + userTableName + " U2 "
+                            + "where U1.user_id = " + girlUserId + " and U2.user_id = " + boyUserId);
+                    rstTemp.next();
 
-            //keep going until we reach n
-            while (i < n && rst.next()){
-                // System.out.println(rst.getString(3));
-                // System.out.println(rst.getString(2));
-                // System.out.println(rst.getString(1));
-                // System.out.println("hi");
-                //long id1 = Integer.parseInt(rst.getString(1));
-                //long id2 = Integer.parseInt(rst.getString(2));
-                try (Statement stmt1 =
-                             oracleConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                     ResultSet.CONCUR_READ_ONLY)) {
-
-                    //gets all data, makes sure the ids are of what we found before, age difference
-                    String hello = "select u1.user_id, u1.first_name, u1.last_name, u1.year_of_birth, " 
-                    + "u2.user_id, u2.first_name, u2.last_name, u2.year_of_birth, "
-                    + "t1.tag_photo_id, a.album_id, a.album_name, p.photo_caption, p.photo_link "
-                    + "from " + userTableName + " u1, " + userTableName + " u2, " 
-                    + tagTableName + " t1, " + tagTableName + " t2, " + albumTableName + " a, " + photoTableName + " p "
-                    + " where abs(u1.year_of_birth - u2.year_of_birth) <= " + yearDiff
-                    + " and u1.user_id = " + rst.getLong(1) + " and u2.user_id = " + rst.getLong(2) 
-                    + " and u1.user_id = t1.tag_subject_id and u2.user_id = t2.tag_subject_id and t1.tag_photo_id = t2.tag_photo_id"
-                    + " and t1.tag_photo_id = p.photo_id and p.album_id = a.album_id ";
-                    //get user info of couple, look at age and get photo and album info
-                    ResultSet info = stmt1.executeQuery(hello);
-
-                    //if there are shared pictures and couple is within yearDiff, add them in
-                    if (info.next()){
-                       // System.out.println("plz");
-                        //System.out.println(info.getString(1));
-                        //System.out.println("mercy");
-                        long gid = Integer.parseInt(info.getString(1));
-                        long bid = Integer.parseInt(info.getString(5));
-                        Integer gy = Integer.parseInt(info.getString(4));
-                        Integer by = Integer.parseInt(info.getString(8));
-                        MatchPair mp = new MatchPair(gid, info.getString(2), info.getString(3),
-                                gy, bid, info.getString(6), info.getString(7), by);
-                        mp.addSharedPhoto(new PhotoInfo(info.getString(9), info.getString(10), info.getString(11), 
-                          info.getString(12), info.getString(13)));
-                        this.bestMatches.add(mp);
-                        while (info.next()){
-                            mp.addSharedPhoto(new PhotoInfo(info.getString(9), info.getString(10), info.getString(11), 
-                            info.getString(12), info.getString(13)));
-                            this.bestMatches.add(mp);
-                        }
-                    }
+                    String girlFirstName = rstTemp.getString(1);
+                    String girlLastName = rstTemp.getString(2);
+                    int girlYear = rstTemp.getInt(3);
+                    String boyFirstName = rstTemp.getString(4);
+                    String boyLastName = rstTemp.getString(5);
+                    int boyYear = rstTemp.getInt(6);
+                    MatchPair mp = new MatchPair(girlUserId, girlFirstName, girlLastName, girlYear, boyUserId, boyFirstName,
+                            boyLastName, boyYear);
                     
-                info.close();
-                stmt1.close();
-                }catch (SQLException err){
+                    rstTemp = stmtTemp.executeQuery("select P.photo_id, A.album_id, A.album_name, P.photo_caption, P.photo_link "
+                            + "from " +  tagTableName + " T1, " + tagTableName + " T2, " +  photoTableName + " P, " + albumTableName + " A "
+                            + "where T1.tag_subject_id = " + girlUserId + " and T2.tag_subject_id = " + boyUserId + " "
+                            + "and P.photo_id = T1.tag_photo_id and T1.tag_photo_id = T2.tag_photo_id and P.album_id = A.album_id" );
+                    
+                    while(rstTemp.next()) {
+                        String sharedPhotoId = rstTemp.getString(1);
+                        String sharedPhotoAlbumId = rstTemp.getString(2);
+                        String sharedPhotoAlbumName = rstTemp.getString(3);
+                        String sharedPhotoCaption = rstTemp.getString(4);
+                        String sharedPhotoLink = rstTemp.getString(5);
+                        mp.addSharedPhoto(new PhotoInfo(sharedPhotoId, sharedPhotoAlbumId, sharedPhotoAlbumName, sharedPhotoCaption,
+                                sharedPhotoLink));
+                    }
+                    this.bestMatches.add(mp);
+                    
+                    rstTemp.close();
+                    stmtTemp.close();
+                } catch (SQLException err) {
                     System.err.println(err.getMessage());
                 }
-                ++i;
+                
+                
+                
             }
 
-        rst.close();
-        stmt.close();
-        }catch (SQLException err){
+
+            // Close statement and result set
+            rst.close();
+            stmt.close();
+        } catch (SQLException err) {
             System.err.println(err.getMessage());
         }
     }
