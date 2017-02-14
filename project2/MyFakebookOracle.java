@@ -270,26 +270,6 @@ public class MyFakebookOracle extends FakebookOracle {
             } catch (SQLException err) {
                 System.err.println(err.getMessage());
             }
-        '''
-        Long u1UserId = 123L;
-        String u1FirstName = "u1FirstName";
-        String u1LastName = "u1LastName";
-        int u1Year = 1988;
-        Long u2UserId = 456L;
-        String u2FirstName = "u2FirstName";
-        String u2LastName = "u2LastName";
-        int u2Year = 1986;
-        MatchPair mp = new MatchPair(u1UserId, u1FirstName, u1LastName,
-                u1Year, u2UserId, u2FirstName, u2LastName, u2Year);
-        String sharedPhotoId = "12345678";
-        String sharedPhotoAlbumId = "123456789";
-        String sharedPhotoAlbumName = "albumName";
-        String sharedPhotoCaption = "caption";
-        String sharedPhotoLink = "link";
-        mp.addSharedPhoto(new PhotoInfo(sharedPhotoId, sharedPhotoAlbumId,
-                sharedPhotoAlbumName, sharedPhotoCaption, sharedPhotoLink));
-        this.bestMatches.add(mp);
-        '''
         }
 
     // **** Query 6 ****
