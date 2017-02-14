@@ -238,7 +238,7 @@ public class MyFakebookOracle extends FakebookOracle {
                 
                 Long temp1 = 123L;
                 Long temp2 = 123L;
-                MatchPair mp = new MatchPair(temp1, " ", " ", 0, temp2, " ", " ",0);  
+                MatchPair mp = new MatchPair(temp1, "Firstname", "Lastname", 0, temp2, "Firstname", "Lastname",0);  
 
                 while(rst.next()){
                     long u1UserId = rst.getLong(1);
