@@ -244,9 +244,9 @@ public class MyFakebookOracle extends FakebookOracle {
                     long u1UserId = rst.getLong(1);
                     long u2UserId= rst.getLong(5);
                         if ( u1UserId!=temp1 || u2UserId!= temp2){
-                              if(temp1!=123L){
-                                this.bestMatches.add(mp);
-                                }
+                              //if(temp1!=123L){
+                                //this.bestMatches.add(mp);
+                                //}
                             String u1FirstName = rst.getString(2);
                             String u1LastName = rst.getString(3);
                             int u1Year = rst.getInt(4);
